@@ -1,0 +1,85 @@
+= Lab Instructions
+:icons: font
+
+== Files Of Interest
+- `src/main/java/gettingstarted/Application.java`
+- `src/main/java/gettingstarted/SimpleController.java`
+- `src/test/groovy/gettingstarted/SimpleControllerSpec.groovy`
+
+== Introduction
+
+This exercise does not involve engaging many interesting features
+of the Micronaut framework and is intended to establish a development
+environment and validate that environment.  This exercise should take
+~10-15 minutes.
+
+== Application Entry Point
+
+The application entry point is the default generated `Application.java`.
+
+[source,groovy]
+.src/main/java/gettingstarted/Application.java
+----
+include::src/main/java/gettingstarted/Application.java[indent=0]
+----
+
+== Test For A Simple Endpoint
+
+`src/test/groovy/gettingstarted/SimpleControllerSpec.groovy` defines a test
+for a simple endpoint which should be accessible at `/hello/Jeff`.
+
+[source,groovy]
+.src/test/groovy/gettingstarted/SimpleControllerSpec.groovy
+----
+include::src/test/groovy/gettingstarted/SimpleControllerSpec.groovy[indent=0]
+----
+
+Run the test and verify that it fails:
+
+```
+$ ./gradlew test
+
+> Task :gettingstarted:test
+
+SimpleControllerSpec > test simple greeting action FAILED
+    org.spockframework.runtime.ConditionFailedWithExceptionError at SimpleControllerSpec.groovy:24
+        Caused by: io.micronaut.http.client.exceptions.HttpClientResponseException at DefaultHttpClient.java:2042
+
+2 tests completed, 1 failed
+
+> Task :gettingstarted:test FAILED
+
+FAILURE: Build failed with an exception.
+```
+
+The generated HTML test report should be available at
+`build/reports/tests/test/index.html`.  The report
+should indicate that the request failed with a Page
+Not Found (404) error.  This is because there is no
+endpoint available at `/hello/{some name goes here}`.
+
+Load the project into IntelliJ IDEA and verify that
+the test runs from within the IDE as well.  Right click
+on or in `SimpleControllerSpec` and select "Run
+'SimpleControllerSpec'".
+
+== Satisfy The Test
+
+`src/main/java/gettingstarted/SimpleController.java` exists
+but is is mostly empty.  In order to satisfy the test turn that
+class into a Micronaut controller and add an action to that
+controller which satisfies the test.
+
+The controller itself will need to be annotated with
+`io.micronaut.http.annotation.Controller`.  The action method will
+need to be annotated with `io.micronaut.http.annotation.Get`.
+The controller should be mapped to the root (`/`) of the app
+and the action should be mapped to `/hello/{name}`.
+
+== Bonus
+
+Try creating a separate class annotated with `javax.inject.Singleton`
+that contains a method accepting a `String` argument, and that
+returns a greeting. Inject this class into `SimpleController`
+using either `@Inject` or constructor injection, and use it to
+produce the greeting that is returned in the response.

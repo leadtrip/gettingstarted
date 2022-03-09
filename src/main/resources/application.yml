@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: gettingstarted
+greeting:
+    prefix: Howdy
+    excited: true
