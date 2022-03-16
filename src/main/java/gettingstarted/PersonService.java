@@ -15,7 +15,8 @@ public class PersonService {
     public Person add(Person person) {
         person.id = sequence.getAndIncrement();
         System.out.printf("Adding %s %s with id %s%n", person.firstName, person.secondName, person.id);
-        return inMemoryDatastore.put(person.id, person);
+        inMemoryDatastore.put(person.id, person);
+        return person;
     }
 
     public Person get(Integer id) {

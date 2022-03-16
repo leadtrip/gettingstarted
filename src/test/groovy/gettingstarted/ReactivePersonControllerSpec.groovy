@@ -19,16 +19,16 @@ class ReactivePersonControllerSpec extends Specification{
     void testCrudPersonOperations() {
         when:
             HttpRequest request = HttpRequest.POST("/person", Map.of("firstName", "Axl", "secondName", "Rose"));
-            HttpResponse response = client.toBlocking().exchange(request);
+            HttpResponse response = client.toBlocking().exchange(request)       // use exchange to get response metadata
         then:
             HttpStatus.CREATED == response.getStatus()
         when:
             request.body = new Person( "Bob", "Geldoff" )
-            response = client.toBlocking().exchange(request)
+            Person p = client.toBlocking().retrieve(request, Person)            // use retrieve to just get the response object
         then:
-            HttpStatus.CREATED == response.getStatus()
+            p.id == 9
         when:
-            def p  = client.toBlocking().retrieve( "/person/0", Person )        // person 0 to 7 added in PersonBootstrap
+            p  = client.toBlocking().retrieve( "/person/0", Person )        // person 0 to 7 added in PersonBootstrap
         then:
             p.id == 0
             p.firstName == 'Andy'
