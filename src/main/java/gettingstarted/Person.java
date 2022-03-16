@@ -1,17 +1,25 @@
 package gettingstarted;
 
+import io.micronaut.core.annotation.Introspected;
+
+@Introspected
 public class Person {
 
+    Integer id;
     String firstName;
     String secondName;
-
-    public Person() {
-
-    }
 
     public Person(String firstName, String secondName) {
         this.firstName = firstName;
         this.secondName = secondName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {
