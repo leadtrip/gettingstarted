@@ -3,8 +3,13 @@ package gettingstarted;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Singleton
 public class ReallySlowDbService {
+
+    private final Random random = new Random();
 
     @Inject
     PersonService personService;
@@ -21,7 +26,9 @@ public class ReallySlowDbService {
 
     private void hangAround() {
         try {
-            Thread.sleep(500 );
+            long sleep = 100 * ThreadLocalRandom.current().nextLong(1, 10 );
+            System.out.printf("Slow DB is going to take %s ms to do thi%ns", sleep);
+            Thread.sleep( sleep );
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
